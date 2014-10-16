@@ -1,0 +1,10 @@
+*.o
+*.swp
+.gdb_history
+conf
+CMakeCache.txt
+cmake_install.cmake
+CMakeFiles
+Makefile
+tags
+version.h

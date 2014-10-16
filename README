@@ -1,0 +1,30 @@
+
+This is the source for a headless client for the Nanocopter Crazyflie
+written in C++.
+
+(C) 2014 Alexander Holler
+
+It uses a heavily modified version of libcflie
+(C) 2013 Jan Winkler
+
+To build cfheadless you need cmake, git, gcc >= 4.7 and boost.
+
+To checkout submodules (currently only libcflie) use:
+git submodule init
+git submodule update
+
+Build the release-version:
+cmake -DCMAKE_BUILD_TYPE=release
+make
+
+Build the debug-version:
+cmake -DCMAKE_BUILD_TYPE=debug
+make
+
+To get a verbose output during compilation, use
+VERBOSE=1 make
+
+The client expects the configuration at the same place as it's binary.
+
+That means just copy over the directory 'conf' from your Crazyflie Python
+client to the directory cfheadless.cpp resides (or just create a symlink).
