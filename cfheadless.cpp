@@ -30,7 +30,7 @@
 #include <cstdlib> // std::abort
 #include <csignal>
 #include <set>
-#include <cfloat> // FLT_MAX
+#include <limits>
 
 #include <linux/limits.h> // PATH_MAX
 #include <sys/stat.h> // S_I*
@@ -246,8 +246,8 @@ static void load_input(const std::string& path, const std::string& mapping)
 		if (key == "not defined")
 			continue;
 		if (type == "Input.AXIS") {
-			float scale(v.second.get<float>("scale", FLT_MAX));
-			if (scale == FLT_MAX)
+			float scale(v.second.get<float>("scale", std::numeric_limits<float>::max()));
+			if (scale == std::numeric_limits<float>::max())
 				continue;
 			Joystick_axis_function f(Axis_thrust);
 			if (key == "thrust")
@@ -266,8 +266,8 @@ static void load_input(const std::string& path, const std::string& mapping)
 			joystick_axis_settings.insert(s);
 		}
 		else if (type == "Input.BUTTON") {
-			float scale(v.second.get<float>("scale", FLT_MAX));
-			if (scale == FLT_MAX)
+			float scale(v.second.get<float>("scale", std::numeric_limits<float>::max()));
+			if (scale == std::numeric_limits<float>::max())
 				continue;
 			Joystick_button_function f(Button_exit);
 			if (key == "pitchcal")
@@ -291,7 +291,8 @@ static void load_input(const std::string& path, const std::string& mapping)
 }
 
 
-#define MAX_THRUST UINT16_MAX
+//#define MAX_THRUST 65000
+#define MAX_THRUST std::numeric_limits<uint16_t>::max()
 
 static float deadband(float value, float threshold)
 {
@@ -347,7 +348,7 @@ static void set_yaw(CCrazyflie &cflieCopter, float yaw, float max_yaw)
 static void set_thrust(CCrazyflie &cflieCopter, float thrust, bool alt_hold, float min_thrust, float max_thrust, float& old_thrust)
 {
 	if (alt_hold)
-		thrust = int(deadband(thrust, 0.2) * INT16_MAX + INT16_MAX + .5); // Convert to uint16
+		thrust = int(deadband(thrust, 0.2) * std::numeric_limits<int16_t>::max() + std::numeric_limits<int16_t>::max() + .5); // Convert to uint16
 	else
 		thrust = min_thrust + thrust * (max_thrust - min_thrust);
 	// TODO: slew
@@ -532,7 +533,7 @@ int main(int, char **)
 			continue;
 		if (i->function == Axis_yaw) {
 			// yaw, scale = 1.0
-			float yaw = (float)evt.value / INT16_MAX; // convert to [-1, 1]
+			float yaw = (float)evt.value / std::numeric_limits<int16_t>::max(); // convert to [-1, 1]
 			yaw *= i->scale;
 			if (yaw == data[d_yaw])
 				continue;
@@ -541,7 +542,7 @@ int main(int, char **)
 			continue;
 		}
 		else if (i->function == Axis_thrust) {
-			float thrust = (float)evt.value / INT16_MAX; // convert to [-1, 1]
+			float thrust = (float)evt.value / std::numeric_limits<int16_t>::max(); // convert to [-1, 1]
 			thrust *= i->scale;
 			if (thrust == data[d_thrust])
 				continue;
@@ -550,7 +551,7 @@ int main(int, char **)
 			continue;
 		}
 		else if (i->function == Axis_roll) {
-			float roll = (float)evt.value / INT16_MAX; // convert to [-1, 1]
+			float roll = (float)evt.value / std::numeric_limits<int16_t>::max(); // convert to [-1, 1]
 			roll *= i->scale;
 			if (roll == data[d_roll])
 				continue;
@@ -560,7 +561,7 @@ int main(int, char **)
 			continue;
 		}
 		else if (i->function == Axis_pitch) {
-			float pitch = (float)evt.value / INT16_MAX; // convert to [-1, 1]
+			float pitch = (float)evt.value / std::numeric_limits<int16_t>::max(); // convert to [-1, 1]
 			pitch *= i->scale;
 			if (pitch == data[d_pitch])
 				continue;
