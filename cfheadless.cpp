@@ -360,13 +360,9 @@ static void set_althold(CCrazyflie &cflieCopter, bool button, bool& alt_hold, fl
 {
 	if (button == alt_hold)
 		return;
-	int rc = cflieCopter.setParameterValue("flightmode.althold", (uint8_t)button);
-	if (!rc) {
-		alt_hold = button;
-		set_thrust(cflieCopter, thrust, alt_hold, min_thrust, max_thrust, old_thrust);
-	}
-	else
-		std::cerr << "Error changing altitude hold: " << rc << std::endl;
+	cflieCopter.setParameterValue("flightmode.althold", (uint8_t)button);
+	alt_hold = button;
+	set_thrust(cflieCopter, thrust, alt_hold, min_thrust, max_thrust, old_thrust);
 }
 
 static void show_temperature(CCrazyflie &cflieCopter)
@@ -470,11 +466,12 @@ int main(int, char **)
 	std::cout << "Initialized" << std::endl;
 
 	bool has_pressure_sensor(false);
-	{
-	uint8_t imu_sensors_HMC5883L;
-	if (!cflieCopter.getParameterValue("imu_sensors.HMC5883L", imu_sensors_HMC5883L))
+	try {
+		uint8_t imu_sensors_HMC5883L;
+		cflieCopter.getParameterValue("imu_sensors.HMC5883L", imu_sensors_HMC5883L);
 		if (imu_sensors_HMC5883L)
 			has_pressure_sensor = true;
+	} catch(...) {
 	}
 	std::cout << "Pressure sensor available " << has_pressure_sensor << std::endl;
 	// Start Logging
