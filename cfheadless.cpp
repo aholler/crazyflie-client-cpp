@@ -235,7 +235,8 @@ static void load_input(const std::string& path, const std::string& mapping)
 	try {
 		read_json(path + "/input/" + mapping + ".json", ptree);
 	} catch(...) {
-		// just ignore all errors
+		std::cerr << "Error reading '" + path + "/input/" + mapping + ".json'" << std::endl;
+		return;
 	}
 	BOOST_FOREACH(boost::property_tree::ptree::value_type &v, ptree.get_child("inputconfig.inputdevice.axis")) {
 		std::string type (v.second.get<std::string>("type", "not defined"));
