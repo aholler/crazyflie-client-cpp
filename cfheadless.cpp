@@ -404,6 +404,23 @@ static void show_pressure(CCrazyflie &cflieCopter)
 	}
 }
 
+static void show_firmware_revision(CCrazyflie &cflieCopter)
+{
+	uint32_t fw_rev0;
+	uint16_t fw_rev1;
+	uint8_t fw_dirty;
+	cflieCopter.getParameterValue("firmware.revision0", fw_rev0);
+	cflieCopter.getParameterValue("firmware.revision1", fw_rev1);
+	cflieCopter.getParameterValue("firmware.modified", fw_dirty);
+	uint64_t fw_rev(fw_rev0);
+	fw_rev <<= 16;
+	fw_rev += fw_rev1;
+	std::cout << "Crazyflie firmware revision " << std::hex << fw_rev << std::dec;
+	if (fw_dirty)
+		std::cout << "-dirty";
+	std::cout << std::endl;
+}
+
 
 int main(int, char **)
 {
@@ -470,6 +487,8 @@ int main(int, char **)
 	while (!interrupted && cflieCopter.cycle() && !cflieCopter.isInitialized())
 		std::this_thread::sleep_for(std::chrono::milliseconds(5));
 	std::cout << "Initialized" << std::endl;
+
+	show_firmware_revision(cflieCopter);
 
 	bool has_pressure_sensor(false);
 	try {
