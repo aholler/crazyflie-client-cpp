@@ -158,7 +158,7 @@ void Settings::save(const std::string& path) const
 		// just ignore all errors
 	}
 	ptree.put("link_uri", link_uri);
-	ptree.put("input_device", input_device);
+	//ptree.put("input_device", input_device); // only save/change it if we are saving the mapping too
 	ptree.put("min_thrust", min_thrust);
 	ptree.put("max_thrust", max_thrust);
 	ptree.put("trim_roll", trim_roll);
