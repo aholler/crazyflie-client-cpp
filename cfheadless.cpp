@@ -349,6 +349,11 @@ static void set_yaw(CCrazyflie &cflieCopter, float yaw, float max_yaw)
 static void set_thrust(CCrazyflie &cflieCopter, float thrust, bool alt_hold, float min_thrust, float max_thrust, float& old_thrust)
 {
 	if (alt_hold)
+		// In hoover mode the meaning of thrust is different.
+		// From the forum:
+		// "A value of 32767 means do not change the target altitude,
+		// 0 means decrease the target altitude fast,
+		// 65535 means increase the target altitude fast."
 		thrust = int(deadband(thrust, 0.2) * std::numeric_limits<int16_t>::max() + std::numeric_limits<int16_t>::max() + .5); // Convert to uint16
 	else
 		thrust = min_thrust + thrust * (max_thrust - min_thrust);
