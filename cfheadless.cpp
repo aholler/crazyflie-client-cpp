@@ -427,9 +427,7 @@ int main(int, char **)
 	std::cout << std::endl <<
 		"Crazyflie headless client" << std::endl <<
 		"(C) 2014 Alexander Holler" << std::endl << std::endl <<
-		"Version " VERSION << std::endl << std::endl <<
-		"Uses a heavily modified libcflie" << std::endl <<
-		"(C) 2013 Jan Winkler" << std::endl << std::endl;
+		"Version " VERSION << std::endl << std::endl;
 
 	old_signal_handler = std::signal(SIGINT, deleter_sig_handler); // catch CTRL-C
 	if (old_signal_handler ==  SIG_ERR)
