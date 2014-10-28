@@ -4,9 +4,6 @@ written in C++.
 
 (C) 2014 Alexander Holler
 
-It uses a heavily modified version of libcflie
-(C) 2013 Jan Winkler
-
 To build cfheadless you need cmake, git, gcc >= 4.7 and boost.
 
 To checkout submodules (currently only libcflie) use:
