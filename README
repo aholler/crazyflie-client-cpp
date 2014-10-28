@@ -28,3 +28,7 @@ The client expects the configuration at the same place as it's binary.
 
 That means just copy over the directory 'conf' from your Crazyflie Python
 client to the directory cfheadless.cpp resides (or just create a symlink).
+
+
+Be aware, if you distribute binaries of cfheadless, you have to add the
+copyright from libcflie too.
