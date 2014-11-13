@@ -503,6 +503,13 @@ int main(int, char **)
 		cflieCopter.enableBarometerLogging();
 
 	// Start the main loop
+
+	// TODO: It's a rather broken behaviour of libcflie to block cycle()
+	// if the connection to the Crazyflie isn't available. That
+	// currently means you can't quit this program in any sane way if
+	// there is no connection.
+	// I've intended to fix that in libcflie, but until then you might
+	// just add an exit() to the above signalhandler.
 	while (!interrupted && cflieCopter.cycle()) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
